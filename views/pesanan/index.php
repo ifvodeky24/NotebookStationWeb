@@ -2,12 +2,13 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Konsumen;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PesananSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Data Pesanan';
+$this->title = 'Data Master Pesanan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pesanan-index">
@@ -29,9 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <th><center>No</center></th>
             <th><center>Id Pesanan</center></th>
+            <th><center>Kode Pesanan</center></th>
             <th><center>Nama Konsumen</center></th>
             <th><center>Tanggal Pesanan</center></th>
+            <th><center>Jumlah</center></th>
+            <th><center>Total Tagihan</center></th>
+            <th><center>Nama Produk</center></th>
             <th><center>Status</center></th>
+            <th><center>Catatan Opsional</center></th>
             <th><center>Aksi</center></th>
         </tr>
         </thead>
@@ -44,9 +50,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
            <td><center><?= $no; ?></center></td>    
            <td><center><?= $db['id_pesanan']?></center></td>    
-           <td><center><?= $db['nama_lengkap']?></center></td>    
+           <td><center><?= $db['kode_pesanan']?></center></td>    
+           <td><center><?= $db['nama_konsumen']?></center></td>    
            <td><center><?= $db['tanggal_pesanan']?></center></td>    
+           <td><center><?= $db['jumlah']?></center></td>    
+           <td><center><?= $db['total_tagihan']?></center></td>    
+           <td><center><?= $db['nama_produk']?></center></td>    
            <td><center><?= $db['status']?></center></td>      
+           <td><center><?= $db['catatan_opsional']?></center></td>      
 
            <td> <center>
                 <?= Html::a('<i class="fa fa-search"></i>', ['/pesanan/view', 'id' =>$db['id_pesanan']], ['class' => 'btn btn-warning btn-xs']) ?>

@@ -37,7 +37,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id_user')->hiddenInput(['value'=> $id_user])->label(false) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Simpan', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

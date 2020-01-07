@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Keranjang;
-use app\models\KeranjangSearch;
+use app\models\PesananKhusus;
+use app\models\PesananKhususSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * KeranjangController implements the CRUD actions for Keranjang model.
+ * PesananKhususController implements the CRUD actions for PesananKhusus model.
  */
-class KeranjangController extends Controller
+class PesananKhususController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -29,23 +29,39 @@ class KeranjangController extends Controller
         ];
     }
 
-    /**
-     * Lists all Keranjang models.
-     * @return mixed
-     */
+    // /**
+    //  * Lists all PesananKhusus models.
+    //  * @return mixed
+    //  */
+    // public function actionIndex()
+    // {
+    //     $searchModel = new PesananKhususSearch();
+    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+    //     return $this->render('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
+
     public function actionIndex()
     {
-        $searchModel = new KeranjangSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        
+        $model= (new \Yii\db\query())
+        ->select(['tb_pesanan_khusus.*', 'tb_produk.*', 'tb_user.*'])
+        ->from('tb_pesanan_khusus')
+        ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_pesanan_khusus.id_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
+        ->all();
+
+        return $this->render('index', ['model' =>$model,]);
     }
 
     /**
-     * Displays a single Keranjang model.
+     * Displays a single PesananKhusus model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +74,16 @@ class KeranjangController extends Controller
     }
 
     /**
-     * Creates a new Keranjang model.
+     * Creates a new PesananKhusus model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Keranjang();
+        $model = new PesananKhusus();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_keranjang]);
+            return $this->redirect(['view', 'id' => $model->id_pesanan_khusus]);
         }
 
         return $this->render('create', [
@@ -76,7 +92,7 @@ class KeranjangController extends Controller
     }
 
     /**
-     * Updates an existing Keranjang model.
+     * Updates an existing PesananKhusus model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +103,7 @@ class KeranjangController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_keranjang]);
+            return $this->redirect(['view', 'id' => $model->id_pesanan_khusus]);
         }
 
         return $this->render('update', [
@@ -96,7 +112,7 @@ class KeranjangController extends Controller
     }
 
     /**
-     * Deletes an existing Keranjang model.
+     * Deletes an existing PesananKhusus model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +126,15 @@ class KeranjangController extends Controller
     }
 
     /**
-     * Finds the Keranjang model based on its primary key value.
+     * Finds the PesananKhusus model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Keranjang the loaded model
+     * @return PesananKhusus the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Keranjang::findOne($id)) !== null) {
+        if (($model = PesananKhusus::findOne($id)) !== null) {
             return $model;
         }
 

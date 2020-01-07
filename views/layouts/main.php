@@ -32,7 +32,7 @@ User::find()
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <?php $this->registerCsrfMetaTags() ?>
-    <title>NOTEBOOKSTATION</title>
+    <title>SENAPELAN COMPUTER</title>
     <?php $this->head() ?>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
@@ -45,9 +45,9 @@ User::find()
     <!-- Logo -->
     <a href="<?= Yii::$app->request->baseUrl; ?>/site" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>N</b>ST</span>
+      <span class="logo-mini"><b>S</b>C</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Notebook Station</b></span>
+      <span class="logo-lg"><b>Senapelan Computer</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -94,7 +94,7 @@ User::find()
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <?php echo Html::a('Profil', ['/user/index'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']) ?>
+                  <?php echo Html::a('Profil', ['/user/profil'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']) ?>
                   <!-- <a href="" class="btn btn-default btn-flat">Profil</a> -->
                 </div>
                 <div class="pull-right">
@@ -118,9 +118,9 @@ User::find()
       <div class="user-panel">
         <div class="pull-left image">
            <?= empty($user->foto) ?
-                  Html::img('@web/files/images/user_images/'.$foto, ['class' => 'user-image img-circle', 'alt' => 'User Image', 'height'=>'100', 'width'=>'100']) :
+                  Html::img('@web/files/images/user_images/'.$foto, ['class' => 'user-image img-circle', 'alt' => 'User Image', 'style' => 'width:60px;height: 60px']) :
 
-                  Html::img(\Yii::$app->params['frontendUrl'] . $user->foto, ['class' => 'user-image img-circle', 'alt' => 'User Image', 'height'=>'100', 'width'=>'100' ]) ?>
+                  Html::img(\Yii::$app->params['frontendUrl'] . $user->foto, ['class' => 'user-image img-circle', 'alt' => 'User Image', 'style' => 'width:60px;height: 60px' ]) ?>
 
           
         </div>
@@ -163,21 +163,18 @@ User::find()
         <!-- data master konsumen akhir -->
 
         <!-- data master pesanan awal -->
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-file-text"></i>
-            <span>Data Master Pesanan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-down pull-right"></i>
-            </span>
+        <li>
+          <a href="<?php echo Yii::$app->request->baseUrl; ?>/pesanan/index">
+            <i class="fa fa-users"></i> <span>Data Master Pesanan</span>
           </a>
-          <ul class="treeview-menu">
-            <li> <?=html::a('<i class="fa fa-circle-o"> </i>Pesanan ', 
-            ['/pesanan/index']) ?> </li>
-              <li> <?=html::a('<i class="fa fa-circle-o"> </i>Detail Pesanan', 
-            ['/detail-pesanan/index']) ?> </li>
+        </li>
+        <!-- data master pesanan akhir -->
 
-          </ul>
+        <!-- data master pesanan awal -->
+        <li>
+          <a href="<?php echo Yii::$app->request->baseUrl; ?>/pesanan-khusus/index">
+            <i class="fa fa-users"></i> <span>Data Master Pesanan Khusus</span>
+          </a>
         </li>
         <!-- data master pesanan akhir -->
 
@@ -197,6 +194,14 @@ User::find()
         </li>
         <!-- data master pembayaran akhir -->
 
+        <!-- data master pembayaran awal -->
+        <li>
+          <a href="<?php echo Yii::$app->request->baseUrl; ?>/pembayaran-khusus/index">
+            <i class="fa  fa-money "></i> <span>Data Master Pembayaran Khusus</span>
+          </a>
+        </li>
+        <!-- data master pembayaran akhir -->
+
         <!-- data master wishlist awal -->
         <li>
           <a href="<?php echo Yii::$app->request->baseUrl; ?>/wishlist/index">
@@ -212,6 +217,34 @@ User::find()
           </a>
         </li>
         <!-- data master user akhir -->
+
+        <?php endif;?>
+
+        <?php if(($level== 'Pimpinan')):?>
+
+        <li>
+          <a href="<?php echo Yii::$app->request->baseUrl; ?>/produk/index-pimpinan">
+            <i class="fa  fa-folder-open-o"></i> <span>Laporan Data Produk</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="<?php echo Yii::$app->request->baseUrl; ?>/konsumen/index-pimpinan">
+            <i class="fa  fa-folder-open-o"></i> <span>Laporan Data Konsumen</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="<?php echo Yii::$app->request->baseUrl; ?>/pesanan/index-pimpinan">
+            <i class="fa  fa-folder-open-o"></i> <span>Laporan Data Pesanan</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="<?php echo Yii::$app->request->baseUrl; ?>/pembayaran/index-pimpinan">
+            <i class="fa  fa-folder-open-o"></i> <span>Laporan Data Pembayaran</span>
+          </a>
+        </li>
 
         <?php endif;?>
 

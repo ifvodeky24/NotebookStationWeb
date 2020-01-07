@@ -36,9 +36,10 @@ class Keranjang extends \yii\db\ActiveRecord
     {
         return [
             [['id_konsumen', 'status'], 'required'],
-            [['id_konsumen', 'jumlah', 'id_produk'], 'integer'],
+            [['id_konsumen', 'jumlah', 'id_produk', 'jumlah_harga'], 'integer'],
             [['status'], 'string'],
             [['createdAt', 'updatedAt'], 'safe'],
+            [['catatan_opsional'], 'string', 'max' => 50],
             [['id_konsumen'], 'exist', 'skipOnError' => true, 'targetClass' => Konsumen::className(), 'targetAttribute' => ['id_konsumen' => 'id_konsumen']],
         ];
     }

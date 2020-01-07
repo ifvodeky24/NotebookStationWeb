@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use mPDF;
 
 /**
  * ProdukController implements the CRUD actions for Produk model.
@@ -30,6 +31,38 @@ class ProdukController extends Controller
         ];
     }
 
+    public function actionPrintLaporan(){
+        // $mpdf=new \Mpdf\mPDF();
+        // $mpdf->WriteHTML('Sample Text');
+        // $mpdf->Output();
+        // exit;
+        $model = new Produk();
+
+        $id_user = Yii::$app->user->identity['id_user'];
+
+       $data= (new \yii\db\Query());
+       $data  
+       ->select('*')
+        ->from('tb_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.id_user'=> $id_user])
+        ->orderBy('id_produk')
+        ->all();
+       $command = $data->createCommand();
+       $modelasset = $command->queryAll();
+
+
+       $mpdf = new \Mpdf\Mpdf();
+       $mpdf->SetTitle('Laporan Data Produk');
+       $mpdf->WriteHTML($this->renderPartial('hasil-laporan-produk',[
+            'model' => $model,
+            'modelasset' => $modelasset,
+        ]
+        ));
+        $mpdf->Output('Laporan Data Produk.pdf','I');
+        exit;
+    }
+
     /**
      * Lists all Produk models.
      * @return mixed
@@ -41,11 +74,34 @@ class ProdukController extends Controller
         $model= (new \Yii\db\query())
         ->select('*')
         ->from('tb_produk')
-        ->where(['id_user'=> $id_user])
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.id_user'=> $id_user])
         ->orderBy('id_produk')
         ->all();
 
         return $this->render('index', ['model'=>$model,]);
+    }
+
+    /**
+     * Lists all Produk models.
+     * @return mixed
+     */
+    public function actionIndexPimpinan()
+    {
+
+        $id_user = Yii::$app->user->identity['id_user'];
+
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
+
+        $model= (new \Yii\db\query())
+        ->select('*')
+        ->from('tb_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
+        ->orderBy('id_produk')
+        ->all();
+
+        return $this->render('index-pimpinan', ['model'=>$model,]);
     }
 
     /**
@@ -57,6 +113,13 @@ class ProdukController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+     public function actionViewPimpinan($id)
+    {
+        return $this->render('view-pimpinan', [
             'model' => $this->findModel($id),
         ]);
     }

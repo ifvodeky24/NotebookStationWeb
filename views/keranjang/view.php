@@ -32,19 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id_keranjang',
-            'id_konsumen',
+            'konsumen.nama_lengkap',
             'status',
             [
-                'label'=>'Id Produk ',
+                'label'=>'Nama Produk ',
                 'format'=>'raw',
                 'value' => function($data){
                     $sql = (new \Yii\db\query())
-                            ->select('id_produk')
+                            ->select('*')
                             ->from('tb_detail_keranjang')
+                            ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_detail_keranjang.id_produk')
                             ->where(['id_keranjang' => $data['id_keranjang']])
                             ->one();
                     
-                    return $sql['id_produk'];
+                    return $sql['nama_produk'];
                 }
             ],
             [
@@ -52,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'raw',
                 'value' => function($data){
                     $sql = (new \Yii\db\query())
-                            ->select('jumlah')
+                            ->select('*')
                             ->from('tb_detail_keranjang')
                             ->where(['id_keranjang' => $data['id_keranjang']])
                             ->one();
@@ -60,6 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $sql['jumlah'];
                 }
             ],
+            'jumlah_harga',
+            'catatan_opsional',
             'createdAt',
             'updatedAt',
         

@@ -29,10 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <th><center>No</center></th>
             <th><center>Id Keranjang</center></th>
-            <th><center>Id Konsumen</center></th>
-            <th><center>Id Produk</center></th>
+            <th><center>Nama Konsumen</center></th>
+            <th><center>Nama Produk</center></th>
             <th><center>Status</center></th>
             <th><center>Jumlah</center></th>
+            <th><center>Jumlah Harga</center></th>
+            <th><center>Catatan Opsional</center></th>
             <th><center>Aksi</center></th>
         </tr>
         </thead>
@@ -45,10 +47,12 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
            <td><center><?= $no; ?></center></td>    
            <td><center><?= $db['id_keranjang']?></center></td>    
-           <td><center><?= $db['id_konsumen']?></center></td>      
-           <td><center><?= $db['id_produk']?></center></td>      
+           <td><center><?= $db['nama_konsumen']?></center></td>      
+           <td><center><?= $db['nama_produk']?></center></td>      
            <td><center><?= $db['status']?></center></td>      
            <td><center><?= $db['jumlah']?></center></td>      
+           <td><center><?= $db['jumlah_harga']?></center></td>      
+           <td><center><?= $db['catatan_opsional']?></center></td>      
 
            <td> <center>
                 <?= Html::a('<i class="fa fa-search"></i>', ['/keranjang/view', 'id' =>$db['id_keranjang']], ['class' => 'btn btn-warning btn-xs']) ?>

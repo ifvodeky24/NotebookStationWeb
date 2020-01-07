@@ -25,9 +25,13 @@ use app\models\Produk;
         echo $form->field($model, 'id_produk')->dropDownList($nama_produk,['prompt'=>'Pilih Nama Produk...'])->label('Nama Produk');
     ?>
 
-    <?= $form->field($model, 'status')->dropDownList(['Tersedia' => 'Tersedia', 'Tidak Tersedia' => 'Tidak Tersedia', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'status')->dropDownList(['Tersedia' => 'Tersedia', 'Tidak Tersedia' => 'Tidak Tersedia', ], ['prompt' => 'Pilih Status...']) ?>
+
+    <?= $form->field($model, 'jumlah_harga')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'jumlah')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'catatan_opsional')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Simpan', ['class' => 'btn btn-success']) ?>

@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Pesanan */
 
 $this->title = $model->id_pesanan;
-$this->params['breadcrumbs'][] = ['label' => 'Pesanan', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Data Master Pesanan', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -30,9 +30,54 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id_pesanan',
+            'kode_pesanan',
             'konsumen.nama_lengkap',
             'tanggal_pesanan',
             'status',
+            [
+                'label'=>'Nama Produk ',
+                'format'=>'raw',
+                'value' => function($data){
+                    $sql = (new \Yii\db\query())
+                            ->select('*')
+                            ->from('tb_detail_pesanan')
+                            ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_detail_pesanan.id_produk')
+                            ->where(['id_pesanan' => $data['id_pesanan']])
+                            ->one();
+                    
+                    return $sql['nama_produk'];
+                }
+            ],
+            [
+                'label'=>'Jumlah ',
+                'format'=>'raw',
+                'value' => function($data){
+                    $sql = (new \Yii\db\query())
+                            ->select('*')
+                            ->from('tb_detail_pesanan')
+                            ->where(['id_pesanan' => $data['id_pesanan']])
+                            ->one();
+                    
+                    return $sql['jumlah'];
+                }
+            ],
+            [
+                'label'=>'Total Tagihan ',
+                'format'=>'raw',
+                'value' => function($data){
+                    $sql = (new \Yii\db\query())
+                            ->select('*')
+                            ->from('tb_detail_pesanan')
+                            ->where(['id_pesanan' => $data['id_pesanan']])
+                            ->one();
+                    
+                    return $sql['total_tagihan'];
+                }
+            ],
+            'catatan_opsional',
+            'alamat_lengkap',
+            'latitude',
+            'longitude',
             'createdAt',
             'updatedAt',
         ],

@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <th><center>No</center></th>
             <th><center>Id Produk</center></th>
-            <th><center>Id User</center></th>
+            <th><center>Nama Pemilik</center></th>
             <th><center>Nama Produk</center></th>
             <th><center>Merk Produk</center></th>
             <th><center>Harga</center></th>
@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
            <td><center><?= $no; ?></center></td>    
            <td><center><?= $db['id_produk']?></center></td>    
-           <td><center><?= $db['id_user']?></center></td>    
+           <td><center><?= $db['nama_lengkap']?></center></td>    
            <td><center><?= $db['nama_produk']?></center></td>    
            <td><center><?= $db['merk_produk']?></center></td>    
            <td><center><?= $db['harga']?></center></td>      

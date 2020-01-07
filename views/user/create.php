@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = 'Tambah User';
-$this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
+$this->title = 'Tambah Data User';
+$this->params['breadcrumbs'][] = ['label' => 'Data Master User', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-create">

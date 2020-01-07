@@ -28,7 +28,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-<body background="<?= Yii::getAlias('@web') . '/files/images/background1.jpg'
+<body background="<?= Yii::getAlias('@web') . '/files/images/background.jpg'
 ?> ">	
 <?php $this->beginBody() ?>
 <!--mulai-->

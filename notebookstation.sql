@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2019 at 03:47 PM
+-- Generation Time: Dec 27, 2019 at 02:43 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -37,24 +37,6 @@ CREATE TABLE `tb_detail_keranjang` (
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tb_detail_keranjang`
---
-
-INSERT INTO `tb_detail_keranjang` (`id_detail_keranjang`, `id_keranjang`, `id_produk`, `jumlah`, `createdAt`, `updatedAt`) VALUES
-(2, 14, 2, 3443545, '2019-11-03 17:07:37', '2019-11-03 17:07:37'),
-(3, 15, 3, 5656868, '2019-11-04 11:02:50', '2019-11-04 11:02:50'),
-(4, 16, 2, 12, '2019-11-27 17:14:42', '2019-11-27 17:14:42'),
-(6, 18, 1, 1, '2019-11-28 12:16:26', '2019-11-28 12:16:26'),
-(7, 22, 1, 1, '2019-11-28 13:10:00', '2019-11-28 13:10:00'),
-(8, 23, 1, 1, '2019-11-28 13:11:46', '2019-11-28 13:11:46'),
-(11, 26, 18, 1, '2019-11-28 20:27:24', '2019-11-28 20:27:24'),
-(12, 27, 15, 1, '2019-11-28 20:31:44', '2019-11-28 20:31:44'),
-(13, 28, 20, 1, '2019-11-28 20:45:53', '2019-11-28 20:45:53'),
-(15, 30, 1, 1, '2019-11-28 21:18:06', '2019-11-28 21:18:06'),
-(19, 34, 2, 1, '2019-12-03 11:11:34', '2019-12-03 11:11:34'),
-(21, 36, 1, 1, '2019-12-04 13:54:23', '2019-12-04 13:54:23');
-
 -- --------------------------------------------------------
 
 --
@@ -66,6 +48,7 @@ CREATE TABLE `tb_detail_pesanan` (
   `id_pesanan` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
   `jumlah` int(50) NOT NULL,
+  `total_tagihan` int(11) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -74,10 +57,8 @@ CREATE TABLE `tb_detail_pesanan` (
 -- Dumping data for table `tb_detail_pesanan`
 --
 
-INSERT INTO `tb_detail_pesanan` (`id_detail_pesanan`, `id_pesanan`, `id_produk`, `jumlah`, `createdAt`, `updatedAt`) VALUES
-(3, 4, 14, 12, '2019-12-05 12:09:45', '2019-12-05 12:09:45'),
-(4, 5, 2, 12, '2019-12-05 12:27:05', '2019-12-05 12:27:05'),
-(5, 5, 19, 12, '2019-12-05 12:28:21', '2019-12-05 12:28:21');
+INSERT INTO `tb_detail_pesanan` (`id_detail_pesanan`, `id_pesanan`, `id_produk`, `jumlah`, `total_tagihan`, `createdAt`, `updatedAt`) VALUES
+(25, 28, 16, 3, 13902000, '2019-12-15 17:01:18', '2019-12-15 17:01:18');
 
 -- --------------------------------------------------------
 
@@ -88,32 +69,11 @@ INSERT INTO `tb_detail_pesanan` (`id_detail_pesanan`, `id_pesanan`, `id_produk`,
 CREATE TABLE `tb_keranjang` (
   `id_keranjang` int(11) NOT NULL,
   `id_konsumen` int(11) NOT NULL,
+  `jumlah_harga` int(11) NOT NULL,
   `status` enum('Tersedia','Tidak Tersedia','','') NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_keranjang`
---
-
-INSERT INTO `tb_keranjang` (`id_keranjang`, `id_konsumen`, `status`, `createdAt`, `updatedAt`) VALUES
-(14, 6, 'Tersedia', '2019-11-03 17:07:36', '2019-11-03 17:07:36'),
-(15, 4, 'Tersedia', '2019-11-04 11:02:50', '2019-11-04 11:02:50'),
-(16, 4, 'Tidak Tersedia', '2019-11-27 17:14:42', '2019-11-27 17:14:42'),
-(17, 6, 'Tersedia', '2019-11-28 11:57:07', '2019-11-28 11:57:07'),
-(18, 6, 'Tersedia', '2019-11-28 12:11:22', '2019-11-28 12:11:22'),
-(19, 6, 'Tersedia', '2019-11-28 12:15:42', '2019-11-28 12:15:42'),
-(20, 6, 'Tersedia', '2019-11-28 12:16:26', '2019-11-28 12:16:26'),
-(21, 6, 'Tersedia', '2019-11-28 13:03:28', '2019-11-28 13:03:28'),
-(22, 6, 'Tersedia', '2019-11-28 13:10:00', '2019-11-28 13:10:00'),
-(23, 6, 'Tersedia', '2019-11-28 13:11:46', '2019-11-28 13:11:46'),
-(26, 4, 'Tersedia', '2019-11-28 20:27:24', '2019-11-28 20:27:24'),
-(27, 4, 'Tersedia', '2019-11-28 20:31:43', '2019-11-28 20:31:43'),
-(28, 4, 'Tersedia', '2019-11-28 20:45:53', '2019-11-28 20:45:53'),
-(30, 4, 'Tersedia', '2019-11-28 21:18:05', '2019-11-28 21:18:05'),
-(34, 11, 'Tersedia', '2019-12-03 11:11:34', '2019-12-03 11:11:34'),
-(36, 11, 'Tersedia', '2019-12-04 13:54:23', '2019-12-04 13:54:23');
 
 -- --------------------------------------------------------
 
@@ -129,6 +89,7 @@ CREATE TABLE `tb_konsumen` (
   `password` varchar(255) NOT NULL,
   `nomor_hp` varchar(50) NOT NULL,
   `alamat` varchar(50) NOT NULL,
+  `restore_id` varchar(300) NOT NULL,
   `foto` varchar(50) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
@@ -138,10 +99,9 @@ CREATE TABLE `tb_konsumen` (
 -- Dumping data for table `tb_konsumen`
 --
 
-INSERT INTO `tb_konsumen` (`id_konsumen`, `username`, `nama_lengkap`, `email`, `password`, `nomor_hp`, `alamat`, `foto`, `createdAt`, `updatedAt`) VALUES
-(4, 'nopri_aja', 'Nopri Wahyudi', 'nopri@gmail.com', '123456', '2147483647', 'Jalan Kubang', 'omom.jpg', '2019-11-02 16:46:08', '2019-11-02 16:46:08'),
-(6, 'nopri', 'Nopri Wahyudi', 'nopri@gmail.com', '123456', '2147483647', 'Jalan Kubang', 'IMG_20161005_103222.jpg', '2019-11-02 16:46:08', '2019-11-02 16:46:08'),
-(11, 'ifvodeky', 'Ifvo Deky Wirawan', 'ifvodeky.w24@gmail.com', '123456', '082383396914', 'Jalan Kubang', 'pemilik_20191203_215651.jpg', '2019-12-01 21:44:39', '2019-12-01 21:44:39');
+INSERT INTO `tb_konsumen` (`id_konsumen`, `username`, `nama_lengkap`, `email`, `password`, `nomor_hp`, `alamat`, `restore_id`, `foto`, `createdAt`, `updatedAt`) VALUES
+(4, 'nopri_aja', 'Nopri Wahyudi Tes', 'nopri1@gmail.com', '123456', '2147483647', 'Jalan Kubang', '1232dsf323', 'pemilik_20191203_215651.jpg', '2019-11-02 16:46:08', '2019-11-02 16:46:08'),
+(11, 'ifvodeky', 'Ifvo Deky Wirawan', 'ifvodeky.w24@gmail.com', '123456', '082383396914', 'Jalan Kubang', '190ec896-006a-4539-b79c-e08148df4ec7', 'pemilik_20191203_215651.jpg', '2019-12-01 21:44:39', '2019-12-01 21:44:39');
 
 -- --------------------------------------------------------
 
@@ -159,13 +119,6 @@ CREATE TABLE `tb_pembayaran` (
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tb_pembayaran`
---
-
-INSERT INTO `tb_pembayaran` (`id_pembayaran`, `id_pesanan`, `bukti_transfer`, `jumlah_transfer`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 5, 'hai.jpg', 456768, 'Belum Lunas', '2019-11-04 11:30:37', '2019-11-04 11:30:37');
-
 -- --------------------------------------------------------
 
 --
@@ -176,7 +129,7 @@ CREATE TABLE `tb_pesanan` (
   `id_pesanan` int(11) NOT NULL,
   `id_konsumen` int(11) NOT NULL,
   `tanggal_pesanan` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` enum('Menunggu Konfirmasi','Menunggu Pembayaran','Sedang Dikirim','Sampai Tujuan','Selesai','Batal','Pesanan Diproses') NOT NULL,
+  `status` enum('Menunggu Pembayaran','Menunggu Konfirmasi','Pesanan Diproses','Sedang Dikirim','Sampai Tujuan','Selesai','Batal') NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -186,8 +139,7 @@ CREATE TABLE `tb_pesanan` (
 --
 
 INSERT INTO `tb_pesanan` (`id_pesanan`, `id_konsumen`, `tanggal_pesanan`, `status`, `createdAt`, `updatedAt`) VALUES
-(4, 4, '2019-11-02 10:54:46', 'Sedang Dikirim', '2019-11-02 16:46:43', '2019-11-02 16:46:43'),
-(5, 11, '2019-11-21 17:00:00', 'Menunggu Pembayaran', '2019-11-03 16:22:12', '2019-11-03 16:22:12');
+(28, 11, '2019-12-15 10:01:18', 'Menunggu Pembayaran', '2019-12-15 17:01:18', '2019-12-15 17:01:18');
 
 -- --------------------------------------------------------
 
@@ -259,9 +211,8 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `username`, `nama_lengkap`, `password`, `authKey`, `accesToken`, `email`, `jabatan`, `alamat`, `nomor_hp`, `level`, `foto`, `nama_toko`, `logo_toko`, `createdAt`, `updatedAt`) VALUES
-(1, 'rido_randika', 'Rido randika Putra', '123456', '1995', '11987adf', 'ridorandika25@gmail.com', 'Admin', 'Jl.Kubang', '085374489932', 'Admin', 'foto.jpg', 'flazz computer', 'logotoko1.jpg', '2019-11-02 16:47:28', '2019-11-02 16:47:28'),
-(3, 'Eci', 'Eci Kartika', '123456', '2342', '12312', 'Eci Kartika@gmail.com', 'Admin', 'Jl.Cinta Betepuk Sebelah Tangan', '085374489909', 'Admin', 'C360_2016-11-23-13-48-28-507.jpg', 'friendly computer', 'logotoko2.png', '2019-11-02 16:47:28', '2019-11-02 16:47:28'),
-(4, 'Arif', 'Arif Galau', '123456', 'dmfkdsjsj', 'dfkdfjf', 'arif.galau@gmail.com', 'Admin', 'Jl.Cinta Betepuk Sebelah Tangan', '085374489909', 'Admin', '9.JPG', 'flazz computer', 'logotoko2.png', '2019-11-02 16:47:28', '2019-11-02 16:47:28');
+(1, 'rido_randika', 'Rido randika Putra', '123456', '1995', '11987adf', 'ridorandika25@gmail.com', 'Admin', 'Jl.Kubang', '085374489932', 'Admin', 'tes.jpg', 'Skin Tech', '', '2019-11-02 16:47:28', '2019-11-02 16:47:28'),
+(4, 'Arif', 'Arif Galau', '123456', 'dmfkdsjsj', 'dfkdfjf', 'arif.galau@gmail.com', 'Admin', 'Jl.Cinta Betepuk Sebelah Tangan', '085374489909', 'Pimpinan', 'images.jpg', 'Skin Tech', 'asus_store.jpeg', '2019-11-02 16:47:28', '2019-11-02 16:47:28');
 
 -- --------------------------------------------------------
 
@@ -282,10 +233,9 @@ CREATE TABLE `tb_wishlist` (
 --
 
 INSERT INTO `tb_wishlist` (`id_wishlist`, `id_konsumen`, `id_produk`, `createdAt`, `updatedAt`) VALUES
-(6, 6, 14, '2019-11-02 16:47:53', '2019-11-02 16:47:53'),
-(43, 6, 2, '2019-11-18 09:20:18', '2019-11-18 09:20:18'),
-(53, 4, 1, '2019-11-28 21:21:03', '2019-11-28 21:21:03'),
-(69, 11, 2, '2019-12-04 21:18:31', '2019-12-04 21:18:31');
+(73, 4, 1, '2019-12-07 23:58:38', '2019-12-07 23:58:38'),
+(74, 4, 20, '2019-12-08 23:02:19', '2019-12-08 23:02:19'),
+(82, 11, 1, '2019-12-16 08:23:35', '2019-12-16 08:23:35');
 
 --
 -- Indexes for dumped tables
@@ -363,19 +313,19 @@ ALTER TABLE `tb_wishlist`
 -- AUTO_INCREMENT for table `tb_detail_keranjang`
 --
 ALTER TABLE `tb_detail_keranjang`
-  MODIFY `id_detail_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_detail_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `tb_detail_pesanan`
 --
 ALTER TABLE `tb_detail_pesanan`
-  MODIFY `id_detail_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_detail_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tb_keranjang`
 --
 ALTER TABLE `tb_keranjang`
-  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `tb_konsumen`
@@ -393,7 +343,7 @@ ALTER TABLE `tb_pembayaran`
 -- AUTO_INCREMENT for table `tb_pesanan`
 --
 ALTER TABLE `tb_pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tb_produk`
@@ -411,7 +361,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_wishlist`
 --
 ALTER TABLE `tb_wishlist`
-  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- Constraints for dumped tables

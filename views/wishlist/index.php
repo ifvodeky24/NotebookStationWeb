@@ -31,8 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <th><center>No</center></th>
             <th><center>Id Wishlist</center></th>
-            <th><center>Id Konsumen</center></th>
-            <th><center>Id Produk</center></th>
+            <th><center>Nama Konsumen</center></th>
+            <th><center>Nama Produk</center></th>
+            <th><center>Aksi</center></th>
            
         </tr>
         </thead>
@@ -45,8 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
            <td><center><?= $no; ?></center></td>    
            <td><center><?= $db['id_wishlist']?></center></td>    
-           <td><center><?= $db['id_konsumen']?></center></td>    
-           <td><center><?= $db['id_produk']?></center></td>        
+           <td><center><?= $db['nama_konsumen']?></center></td>    
+           <td><center><?= $db['nama_produk']?></center></td>        
 
            <td> <center>
                <?= Html::a('<i class="fa fa-search"></i>', ['/wishlist/view', 'id' =>$db['id_wishlist']], ['class' => 'btn btn-warning btn-xs']) ?>

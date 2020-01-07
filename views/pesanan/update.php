@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Pesanan */
 
 $this->title = 'Ubah Data Pesanan: ' . $model->id_pesanan;
-$this->params['breadcrumbs'][] = ['label' => 'Pesanan', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Data Master Pesanan', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_pesanan, 'url' => ['view', 'id' => $model->id_pesanan]];
 $this->params['breadcrumbs'][] = 'Ubah';
 ?>

@@ -36,10 +36,16 @@ class KeranjangController extends Controller
      */
     public function actionIndex()
     {
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
+
         $model= (new \Yii\db\query())
-        ->select('*')
+        ->select(['tb_keranjang.*', 'tb_detail_keranjang.*', 'tb_konsumen.*', 'tb_user.*', 'tb_produk.*', 'tb_konsumen.nama_lengkap as nama_konsumen'])
         ->from('tb_keranjang')
         ->leftjoin('tb_detail_keranjang', 'tb_detail_keranjang.id_keranjang = tb_keranjang.id_keranjang')
+        ->leftjoin('tb_konsumen', 'tb_konsumen.id_konsumen = tb_keranjang.id_konsumen')
+        ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_detail_keranjang.id_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
         ->all();
 
         return $this->render('index', ['model' =>$model,]);

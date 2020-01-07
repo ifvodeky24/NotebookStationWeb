@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $form = Activeform::begin(['id' => 'login-form']); ?>
             <div class="login-box-body">
                 <div class="login-logo">
-                <a href='#'><b>Sistem informasi </b> E-Commerce</a>
+                <a href='#'><b>Sistem informasi <br> </b> E-Commerce</a>
             </div>
 
             <div class="text-center">
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="col-xs-12">
                     <?= Html::submitButton('Login', ['class'=>['
-                        btn btn primary btn-bordred col-xs-12'],
+                        btn btn-success btn-bordred col-xs-12'],
                         'name' => 'login']) ?>
             </div>
 

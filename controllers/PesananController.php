@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Pesanan;
+use app\models\DetailPesanan;
 use app\models\PesananSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -29,26 +30,77 @@ class PesananController extends Controller
         ];
     }
 
+    public function actionPrintLaporan(){
+        // $mpdf=new \Mpdf\mPDF();
+        // $mpdf->WriteHTML('Sample Text');
+        // $mpdf->Output();
+        // exit;
+        $model = new Pesanan();
+
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
+
+       $data= (new \yii\db\Query());
+       $data  
+       ->select('*')
+        ->from('tb_pesanan')
+        ->leftjoin('tb_konsumen', 'tb_konsumen.id_konsumen = tb_pesanan.id_konsumen')
+        ->leftjoin('tb_detail_pesanan', 'tb_detail_pesanan.id_pesanan = tb_pesanan.id_pesanan')
+        ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_detail_pesanan.id_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
+        ->all();
+       $command = $data->createCommand();
+       $modelasset = $command->queryAll();
+
+
+       $mpdf = new \Mpdf\Mpdf();
+       $mpdf->SetTitle('Laporan Data Pesanan');
+       $mpdf->WriteHTML($this->renderPartial('hasil-laporan-pesanan',[
+            'model' => $model,
+            'modelasset' => $modelasset,
+        ]
+        ));
+        $mpdf->Output('Laporan Data Pesanan.pdf','I');
+        exit;
+    }
+
     /**
      * Lists all Pesanan models.
      * @return mixed
      */
     public function actionIndex()
     {
-        // $searchModel = new PesananSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
 
-        // return $this->render('index', [
-        //     'searchModel' => $searchModel,
-        //     'dataProvider' => $dataProvider,
-        // ]);
+        
+        $model= (new \Yii\db\query())
+        ->select(['tb_pesanan.*', 'tb_konsumen.*', 'tb_detail_pesanan.*', 'tb_produk.*', 'tb_user.*', 'tb_konsumen.nama_lengkap as nama_konsumen'])
+        ->from('tb_pesanan')
+        ->leftjoin('tb_konsumen', 'tb_konsumen.id_konsumen = tb_pesanan.id_konsumen')
+        ->leftjoin('tb_detail_pesanan', 'tb_detail_pesanan.id_pesanan = tb_pesanan.id_pesanan')
+        ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_detail_pesanan.id_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
+        ->all();
+
+        return $this->render('index', ['model' =>$model,]);
+    }
+
+    public function actionIndexPimpinan()
+    {
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
+        
         $model= (new \Yii\db\query())
         ->select('*')
         ->from('tb_pesanan')
         ->leftjoin('tb_konsumen', 'tb_konsumen.id_konsumen = tb_pesanan.id_konsumen')
+        ->leftjoin('tb_detail_pesanan', 'tb_detail_pesanan.id_pesanan = tb_pesanan.id_pesanan')
+        ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_detail_pesanan.id_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
         ->all();
 
-        return $this->render('index', ['model' =>$model,]);
+        return $this->render('index-pimpinan', ['model' =>$model,]);
     }
 
     /**
@@ -73,7 +125,23 @@ class PesananController extends Controller
     {
         $model = new Pesanan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save(false)) {
+                $model_detail = new DetailPesanan();
+
+                $id_pesanan_post = $model->id_pesanan;
+            
+                $model_detail->id_pesanan = $id_pesanan_post;
+
+                $model_detail->id_produk = Yii::$app->request->post('Pesanan')['id_produk'];
+
+                $model_detail->jumlah = Yii::$app->request->post('Pesanan')['jumlah'];
+                
+                $model_detail->total_tagihan = Yii::$app->request->post('Pesanan')['total_tagihan'];
+
+                $model_detail->save(false); 
+            }
+
             return $this->redirect(['view', 'id' => $model->id_pesanan]);
         }
 
@@ -92,8 +160,23 @@ class PesananController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        
+        if ($model->load(Yii::$app->request->post()) ) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->save(false)) {
+
+                $id_detail_pesanan = DetailPesanan::find()
+                                    ->where(['id_pesanan' => $id])->one();
+
+                $id_detail_pesanan->id_produk = Yii::$app->request->post('Pesanan')['id_produk'];;
+
+                $id_detail_pesanan->jumlah = Yii::$app->request->post('Pesanan')['jumlah'];
+                
+                $id_detail_pesanan->total_tagihan = Yii::$app->request->post('Pesanan')['total_tagihan'];
+
+                $id_detail_pesanan->save(false); 
+            }
+
             return $this->redirect(['view', 'id' => $model->id_pesanan]);
         }
 

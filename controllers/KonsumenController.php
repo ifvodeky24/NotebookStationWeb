@@ -30,6 +30,34 @@ class KonsumenController extends Controller
         ];
     }
 
+    public function actionPrintLaporan(){
+        // $mpdf=new \Mpdf\mPDF();
+        // $mpdf->WriteHTML('Sample Text');
+        // $mpdf->Output();
+        // exit;
+        $model = new Konsumen();
+
+       $data= (new \yii\db\Query());
+       $data  
+       ->select('*')
+       ->from('tb_konsumen')
+       ->orderBy('id_konsumen')
+       ->all();
+       $command = $data->createCommand();
+       $modelasset = $command->queryAll();
+
+
+       $mpdf = new \Mpdf\Mpdf();
+       $mpdf->SetTitle('Laporan Data Konsumen');
+       $mpdf->WriteHTML($this->renderPartial('hasil-laporan-konsumen',[
+            'model' => $model,
+            'modelasset' => $modelasset,
+        ]
+        ));
+        $mpdf->Output('Laporan Data Konsumen.pdf','I');
+        exit;
+    }
+
     /**
      * Lists all Konsumen models.
      * @return mixed
@@ -46,6 +74,21 @@ class KonsumenController extends Controller
     }
 
     /**
+     * Lists all Konsumen models.
+     * @return mixed
+     */
+    public function actionIndexPimpinan()
+    {
+       $model= (new \Yii\db\query())
+       ->select('*')
+       ->from('tb_konsumen')
+       ->orderBy('id_konsumen')
+       ->all();
+
+       return $this->render('index-pimpinan', ['model'=>$model,]);
+    }
+
+    /**
      * Displays a single Konsumen model.
      * @param integer $id
      * @return mixed
@@ -54,6 +97,13 @@ class KonsumenController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionViewPimpinan($id)
+    {
+        return $this->render('view-pimpinan', [
             'model' => $this->findModel($id),
         ]);
     }

@@ -36,17 +36,15 @@ class WishlistController extends Controller
     public function actionIndex()
     {
         
-        // $searchModel = new ProdukSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        // return $this->render('index', [
-        //     'searchModel' => $searchModel,
-        //     'dataProvider' => $dataProvider,
-        // ]);
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
 
         $model= (new \Yii\db\query())
-        ->select('*')
+        ->select(['tb_wishlist.*', 'tb_konsumen.*', 'tb_produk.*', 'tb_user.*', 'tb_konsumen.nama_lengkap as nama_konsumen'])
         ->from('tb_wishlist')
+        ->leftjoin('tb_konsumen', 'tb_konsumen.id_konsumen = tb_wishlist.id_konsumen')
+        ->leftjoin('tb_produk', 'tb_produk.id_produk = tb_wishlist.id_produk')
+        ->leftjoin('tb_user', 'tb_user.id_user = tb_produk.id_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
         ->orderBy('id_wishlist')
         ->all();
 

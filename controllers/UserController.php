@@ -36,21 +36,26 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        // $searchModel = new UserSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        // return $this->render('index', [
-        //     'searchModel' => $searchModel,
-        //     'dataProvider' => $dataProvider,
-        // ]);
+        $nama_toko = Yii::$app->user->identity['nama_toko'];
 
         $model= (new \Yii\db\query())
         ->select('*')
         ->from('tb_user')
+        ->where(['tb_user.nama_toko'=> $nama_toko])
         ->orderBy('id_user')
         ->all();
 
         return $this->render('index', ['model'=>$model,]);
+    }
+
+    public function actionProfil()
+    {
+
+    $model = new User();
+
+    return $this->render('profil', [
+        'model'=>$model,
+        ]);
     }
 
     /**

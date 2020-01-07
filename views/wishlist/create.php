@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Wishlist */
 
-$this->title = 'Create Wishlist';
-$this->params['breadcrumbs'][] = ['label' => 'Wishlists', 'url' => ['index']];
+$this->title = 'Tambah Data Wishlist';
+$this->params['breadcrumbs'][] = ['label' => 'Data Master Wishlist', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wishlist-create">

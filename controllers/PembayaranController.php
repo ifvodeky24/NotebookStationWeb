@@ -29,18 +29,56 @@ class PembayaranController extends Controller
         ];
     }
 
+    public function actionPrintLaporan(){
+        // $mpdf=new \Mpdf\mPDF();
+        // $mpdf->WriteHTML('Sample Text');
+        // $mpdf->Output();
+        // exit;
+        $model = new Pembayaran();
+
+       $data= (new \yii\db\Query());
+       $data  
+      ->select('*')
+        ->from('tb_pembayaran')
+        ->all();
+       $command = $data->createCommand();
+       $modelasset = $command->queryAll();
+
+
+       $mpdf = new \Mpdf\Mpdf();
+       $mpdf->SetTitle('Laporan Data Pembayaran');
+       $mpdf->WriteHTML($this->renderPartial('hasil-laporan-pembayaran',[
+            'model' => $model,
+            'modelasset' => $modelasset,
+        ]
+        ));
+        $mpdf->Output('Laporan Data Pembayaran.pdf','I');
+        exit;
+    }
+
     /**
      * Lists all Pembayaran models.
      * @return mixed
      */
     public function actionIndex()
     {
+        
         $model= (new \Yii\db\query())
         ->select('*')
         ->from('tb_pembayaran')
         ->all();
 
         return $this->render('index', ['model' =>$model,]);
+    }
+
+    public function actionIndexPimpinan()
+    {
+        $model= (new \Yii\db\query())
+        ->select('*')
+        ->from('tb_pembayaran')
+        ->all();
+
+        return $this->render('index-pimpinan', ['model' =>$model,]);
     }
 
     /**

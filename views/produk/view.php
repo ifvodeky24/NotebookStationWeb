@@ -79,7 +79,36 @@ $this->params['breadcrumbs'][] = $this->title;
                         'height'=>'100', 'width'=>'100', 'style'=>'object-fit: cover']);
                 }
             ],
+            [
+                'label'=>'Nama Pemilik ',
+                'format'=>'raw',
+                'value' => function($data){
+                    $sql = (new \Yii\db\query())
+                            ->select('*')
+                            ->from('tb_user')
+                            ->where(['id_user' => $data['id_user']])
+                            ->one();
+                    
+                    return $sql['nama_lengkap'];
+                }
+            ],
             'user.nama_toko',
+            [
+                'label'=>'Logo Toko',
+                'format'=>'raw',
+                'value' => function($data){
+                    $sql = (new \Yii\db\query())
+                            ->select('*')
+                            ->from('tb_user')
+                            ->where(['id_user' => $data['id_user']])
+                            ->one();
+
+                    $url = Yii::$app->getHomeUrl(). "/files/images/toko_images/" .$sql['logo_toko'];
+
+                    return Html::img($url, ['alt'=>'Gambar Tidak Ada', 'class'=>'img-circle user-img',
+                        'height'=>'100', 'width'=>'100', 'style'=>'object-fit: cover']);
+                }
+            ],
             'createdAt',
             'updatedAt',
         ],
